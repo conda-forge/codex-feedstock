@@ -1,6 +1,6 @@
 context:
   name: codex
-  version: "0.1.2505172129"
+  version: "0.2.0"
 
 package:
   name: ${{ name|lower }}
@@ -8,7 +8,7 @@ package:
 
 source:
   url: https://registry.npmjs.org/@openai/codex/-/codex-${{ version }}.tgz
-  sha256: 854213e2de7ac64a2611217a7ab5c7e349d35fe0a10062ea689796ba84309fbb
+  sha256: c381f23f03d518356928bf24e1f57f9f1d457d538f991cf9978e288b6b636fbf
 
 build:
   number: 0
