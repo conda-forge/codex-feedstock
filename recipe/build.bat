@@ -24,6 +24,10 @@ if defined RUST_TARGET (
     echo Building for Rust target: %RUST_TARGET%
     REM Add Rust target if it doesn't exist
     rustup target add %RUST_TARGET% 2>nul || echo Target already exists
+    REM Set the target toolchain as default to avoid conflicts
+    rustup toolchain install stable-%RUST_TARGET% 2>nul || echo Toolchain already exists
+    rustup default stable-%RUST_TARGET% 2>nul || echo Default already set
+    rustup update
     cargo build --release --target %RUST_TARGET%
     set "TARGET_DIR=target\%RUST_TARGET%\release"
 ) else (
