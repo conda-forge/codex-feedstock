@@ -22,20 +22,53 @@ if defined CARGO_BUILD_TARGET (
 REM Build with target-specific compilation
 if defined RUST_TARGET (
     echo Building for Rust target: %RUST_TARGET%
+    echo.
+    echo [DEBUG] Environment variables before setup:
+    echo CARGO_BUILD_TARGET=%CARGO_BUILD_TARGET%
+    echo RUST_TARGET=%RUST_TARGET%
+    echo target_platform=%target_platform%
+    echo.
+    
     REM Add Rust target if it doesn't exist
     rustup target add %RUST_TARGET% 2>nul || echo Target already exists
     REM Set the target toolchain as default to avoid conflicts
     rustup toolchain install stable-%RUST_TARGET% 2>nul || echo Toolchain already exists
     rustup default stable-%RUST_TARGET% 2>nul || echo Default already set
     rustup update
+    
+    echo [DEBUG] Rust toolchain info:
+    rustup show
+    echo.
+    echo [DEBUG] Available Rust targets:
+    rustup target list --installed
+    echo.
+    
     REM Create .cargo/config.toml to explicitly force the target
     if not exist .cargo mkdir .cargo
     echo [build] > .cargo\config.toml
     echo target = "%RUST_TARGET%" >> .cargo\config.toml
+    
+    echo [DEBUG] Contents of .cargo\config.toml:
+    type .cargo\config.toml
+    echo.
+    
     REM Clear any existing CARGO_BUILD_TARGET that might override our config
     set CARGO_BUILD_TARGET=
+    echo [DEBUG] After clearing CARGO_BUILD_TARGET:
+    echo CARGO_BUILD_TARGET=%CARGO_BUILD_TARGET%
+    echo.
+    
     cargo build --release
     set "TARGET_DIR=target\%RUST_TARGET%\release"
+    
+    echo [DEBUG] Binary info:
+    if exist "%TARGET_DIR%\codex.exe" (
+        echo Binary exists at: %TARGET_DIR%\codex.exe
+        dir "%TARGET_DIR%\codex.exe"
+    ) else (
+        echo ERROR: Binary not found at %TARGET_DIR%\codex.exe
+    )
+    echo.
 ) else (
     echo Building for default target
     cargo build --release
