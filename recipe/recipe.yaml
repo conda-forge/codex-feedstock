@@ -28,16 +28,6 @@ requirements:
 
 tests:
   - script:
-      - echo "[DEBUG] Test environment info:"
-      - echo "Current directory:" & cd
-      - echo "Binary location:" & where codex
-      - if: win
-        then: echo "Binary info:" & dir "%PREFIX%\bin\codex.exe"
-        else: echo "Binary info:" && ls -la "$PREFIX/bin/codex"
-      - if: win
-        then: if exist "%PREFIX%\bin\codex.exe" (echo "Binary exists") else (echo "Binary missing")
-        else: test -f "$PREFIX/bin/codex" && echo "Binary exists" || echo "Binary missing"
-      - echo "Attempting to run codex --version:"
       - codex --version
 
 about:
