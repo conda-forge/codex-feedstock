@@ -59,12 +59,15 @@ fi
 # Build with target-specific compilation
 if [ -n "${RUST_TARGET}" ]; then
     echo "Building for Rust target: ${RUST_TARGET}"
-    # Add Rust target if it doesn't exist
-    rustup target add "${RUST_TARGET}" || true
-    # Set the target toolchain as default to avoid conflicts
-    rustup toolchain install "stable-${RUST_TARGET}" || true
-    rustup default "stable-${RUST_TARGET}" || true
-    rustup update
+    # Only use rustup for cross-compilation (when build != target platform)
+    if command -v rustup >/dev/null 2>&1; then
+        # Add Rust target if it doesn't exist
+        rustup target add "${RUST_TARGET}" || true
+        # Set the target toolchain as default to avoid conflicts
+        rustup toolchain install "stable-${RUST_TARGET}" || true
+        rustup default "stable-${RUST_TARGET}" || true
+        rustup update
+    fi
     cargo build --release --target "${RUST_TARGET}"
     TARGET_DIR="target/${RUST_TARGET}/release"
 else
