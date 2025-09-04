@@ -32,6 +32,8 @@ if defined RUST_TARGET (
     if not exist .cargo mkdir .cargo
     echo [build] > .cargo\config.toml
     echo target = "%RUST_TARGET%" >> .cargo\config.toml
+    REM Clear any existing CARGO_BUILD_TARGET that might override our config
+    set CARGO_BUILD_TARGET=
     cargo build --release
     set "TARGET_DIR=target\%RUST_TARGET%\release"
 ) else (

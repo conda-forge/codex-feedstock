@@ -74,6 +74,8 @@ if [ -n "${RUST_TARGET}" ]; then
 [build]
 target = "${RUST_TARGET}"
 EOF
+    # Clear any existing CARGO_BUILD_TARGET that might override our config
+    unset CARGO_BUILD_TARGET
     cargo build --release
     TARGET_DIR="target/${RUST_TARGET}/release"
 else
