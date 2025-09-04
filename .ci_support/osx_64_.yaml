@@ -14,12 +14,16 @@ channel_sources:
 - conda-forge
 channel_targets:
 - conda-forge main
+curl:
+- '8'
 cxx_compiler:
 - clangxx
 cxx_compiler_version:
 - '19'
 macos_machine:
 - x86_64-apple-darwin13.4.0
+openssl:
+- '3'
 rust_compiler:
 - rust
 target_platform:
