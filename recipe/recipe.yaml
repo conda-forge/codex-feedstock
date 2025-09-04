@@ -20,13 +20,11 @@ requirements:
     - ${{ compiler('cxx') }}
     - ${{ stdlib('c') }}
     - cargo-bundle-licenses
-    - cmake
     - pkg-config
     - openssl
 
   host:
     - openssl
-    - cmake
     - curl
 
 tests:
