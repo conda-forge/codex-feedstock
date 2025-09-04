@@ -4,22 +4,13 @@ setlocal enabledelayedexpansion
 cd codex-rs
 cargo-bundle-licenses --format yaml --output ..\THIRDPARTY.yml
 
-REM Map conda-forge target platform to Rust target
-if "%target_platform%"=="win-arm64" (
-    set "RUST_TARGET=aarch64-pc-windows-msvc"
-) else if "%target_platform%"=="win-64" (
-    set "RUST_TARGET=x86_64-pc-windows-msvc"
-) else (
-    set "RUST_TARGET="
-)
-
-REM Build with target-specific compilation
-if defined RUST_TARGET (
-    echo Building for Rust target: %RUST_TARGET%
+REM Build with target-specific compilation if CARGO_BUILD_TARGET is set
+if defined CARGO_BUILD_TARGET (
+    echo Building for Rust target: %CARGO_BUILD_TARGET%
     REM Add Rust target if it doesn't exist
-    rustup target add %RUST_TARGET% 2>nul || echo Target already exists
-    cargo build --release --target %RUST_TARGET%
-    set "TARGET_DIR=target\%RUST_TARGET%\release"
+    rustup target add %CARGO_BUILD_TARGET% 2>nul || echo Target already exists
+    cargo build --release --target %CARGO_BUILD_TARGET%
+    set "TARGET_DIR=target\%CARGO_BUILD_TARGET%\release"
 ) else (
     echo Building for default target
     cargo build --release
