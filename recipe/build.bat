@@ -25,7 +25,9 @@ if defined RUST_TARGET (
         ren rust-toolchain.toml rust-toolchain.toml.bak
     )
     
+    echo Building for target: %RUST_TARGET%
     cargo build --release --target %RUST_TARGET%
+    echo Build completed for target: %RUST_TARGET%
     
     REM Restore rust-toolchain.toml
     if exist rust-toolchain.toml.bak (

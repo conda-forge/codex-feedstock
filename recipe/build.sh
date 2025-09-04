@@ -59,7 +59,9 @@ if [ -n "${RUST_TARGET}" ]; then
         mv rust-toolchain.toml rust-toolchain.toml.bak
     fi
     
+    echo "Building for target: ${RUST_TARGET}"
     cargo build --release --target "${RUST_TARGET}"
+    echo "Build completed for target: ${RUST_TARGET}"
     
     # Restore rust-toolchain.toml
     if [ -f "rust-toolchain.toml.bak" ]; then
