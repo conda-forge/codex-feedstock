@@ -68,7 +68,13 @@ if [ -n "${RUST_TARGET}" ]; then
         rustup default "stable-${RUST_TARGET}" || true
         rustup update
     fi
-    cargo build --release --target "${RUST_TARGET}"
+    # Create .cargo/config.toml to explicitly force the target
+    mkdir -p .cargo
+    cat > .cargo/config.toml << EOF
+[build]
+target = "${RUST_TARGET}"
+EOF
+    cargo build --release
     TARGET_DIR="target/${RUST_TARGET}/release"
 else
     echo "Building for default target"

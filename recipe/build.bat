@@ -28,7 +28,11 @@ if defined RUST_TARGET (
     rustup toolchain install stable-%RUST_TARGET% 2>nul || echo Toolchain already exists
     rustup default stable-%RUST_TARGET% 2>nul || echo Default already set
     rustup update
-    cargo build --release --target %RUST_TARGET%
+    REM Create .cargo/config.toml to explicitly force the target
+    if not exist .cargo mkdir .cargo
+    echo [build] > .cargo\config.toml
+    echo target = "%RUST_TARGET%" >> .cargo\config.toml
+    cargo build --release
     set "TARGET_DIR=target\%RUST_TARGET%\release"
 ) else (
     echo Building for default target
