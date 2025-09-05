@@ -49,27 +49,58 @@ fi
 
 # Build with target-specific compilation
 if [ -n "${RUST_TARGET}" ]; then
+    echo "[DEBUG] Cross-compilation detected for target: ${RUST_TARGET}"
+    echo "[DEBUG] Environment variables:"
+    echo "[DEBUG] CARGO_BUILD_TARGET=${CARGO_BUILD_TARGET:-<unset>}"
+    echo "[DEBUG] target_platform=${target_platform:-<unset>}"
+    echo "[DEBUG] HOST=${HOST:-<unset>}"
+    echo "[DEBUG] Current directory: $(pwd)"
+    echo
+    
     # Only use rustup for cross-compilation (when build != target platform)
     if command -v rustup >/dev/null 2>&1; then
+        echo "[DEBUG] Adding Rust target ${RUST_TARGET}"
         rustup target add "${RUST_TARGET}" || true
     fi
     
-    # Temporarily rename rust-toolchain.toml to prevent it from overriding cross-compilation
+    echo "[DEBUG] Checking for rust-toolchain files"
     if [ -f "rust-toolchain.toml" ]; then
-        mv rust-toolchain.toml rust-toolchain.toml.bak
+        echo "[DEBUG] Found rust-toolchain.toml, contents:"
+        cat rust-toolchain.toml
+        echo "[DEBUG] DELETING rust-toolchain.toml to prevent override"
+        rm rust-toolchain.toml
+    else
+        echo "[DEBUG] No rust-toolchain.toml found"
     fi
     
-    echo "Building for target: ${RUST_TARGET}"
-    cargo build --release --target "${RUST_TARGET}"
-    echo "Build completed for target: ${RUST_TARGET}"
+    if [ -f "rust-toolchain" ]; then
+        echo "[DEBUG] Found rust-toolchain file, deleting it too"
+        rm rust-toolchain
+    fi
     
-    # Restore rust-toolchain.toml
-    if [ -f "rust-toolchain.toml.bak" ]; then
-        mv rust-toolchain.toml.bak rust-toolchain.toml
+    echo "[DEBUG] Current Rust toolchain info:"
+    if command -v rustup >/dev/null 2>&1; then
+        rustup show
+        echo
+        echo "[DEBUG] Available targets:"
+        rustup target list --installed
+        echo
+    fi
+    
+    echo "[DEBUG] Building for target: ${RUST_TARGET}"
+    cargo build --release --target "${RUST_TARGET}"
+    echo "[DEBUG] Build completed for target: ${RUST_TARGET}"
+    
+    echo "[DEBUG] Checking output directory:"
+    ls -la "target/${RUST_TARGET}/release/codex" || echo "Binary not found!"
+    if command -v file >/dev/null 2>&1; then
+        echo "[DEBUG] Binary architecture:"
+        file "target/${RUST_TARGET}/release/codex"
     fi
     
     TARGET_DIR="target/${RUST_TARGET}/release"
 else
+    echo "[DEBUG] No cross-compilation, using default target"
     cargo build --release
     TARGET_DIR="target/release"
 fi

@@ -17,25 +17,50 @@ if defined CARGO_BUILD_TARGET (
 
 REM Build with target-specific compilation
 if defined RUST_TARGET (
+    echo [DEBUG] Cross-compilation detected for target: %RUST_TARGET%
+    echo [DEBUG] Environment variables:
+    echo [DEBUG] CARGO_BUILD_TARGET=%CARGO_BUILD_TARGET%
+    echo [DEBUG] target_platform=%target_platform%
+    echo [DEBUG] Current directory: %cd%
+    echo.
+    
     REM Add Rust target if it doesn't exist
+    echo [DEBUG] Adding Rust target %RUST_TARGET%
     rustup target add %RUST_TARGET% 2>nul || echo Target already exists
     
-    REM Temporarily rename rust-toolchain.toml to prevent it from overriding cross-compilation
+    echo [DEBUG] Checking for rust-toolchain files
     if exist rust-toolchain.toml (
-        ren rust-toolchain.toml rust-toolchain.toml.bak
+        echo [DEBUG] Found rust-toolchain.toml, contents:
+        type rust-toolchain.toml
+        echo [DEBUG] DELETING rust-toolchain.toml to prevent override
+        del rust-toolchain.toml
+    ) else (
+        echo [DEBUG] No rust-toolchain.toml found
     )
     
-    echo Building for target: %RUST_TARGET%
+    if exist rust-toolchain (
+        echo [DEBUG] Found rust-toolchain file, deleting it too
+        del rust-toolchain
+    )
+    
+    echo [DEBUG] Current Rust toolchain info:
+    rustup show
+    echo.
+    
+    echo [DEBUG] Available targets:
+    rustup target list --installed
+    echo.
+    
+    echo [DEBUG] Building for target: %RUST_TARGET%
     cargo build --release --target %RUST_TARGET%
-    echo Build completed for target: %RUST_TARGET%
+    echo [DEBUG] Build completed for target: %RUST_TARGET%
     
-    REM Restore rust-toolchain.toml
-    if exist rust-toolchain.toml.bak (
-        ren rust-toolchain.toml.bak rust-toolchain.toml
-    )
+    echo [DEBUG] Checking output directory:
+    dir target\%RUST_TARGET%\release\codex.exe
     
     set "TARGET_DIR=target\%RUST_TARGET%\release"
 ) else (
+    echo [DEBUG] No cross-compilation, using default target
     cargo build --release
     set "TARGET_DIR=target\release"
 )
