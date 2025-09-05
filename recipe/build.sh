@@ -61,6 +61,11 @@ if [ -n "${RUST_TARGET}" ]; then
     if command -v rustup >/dev/null 2>&1; then
         echo "[DEBUG] Adding Rust target ${RUST_TARGET}"
         rustup target add "${RUST_TARGET}" || true
+        
+        # Force set the default toolchain to the target architecture
+        echo "[DEBUG] Setting default toolchain to stable-${RUST_TARGET}"
+        rustup toolchain install "stable-${RUST_TARGET}" || echo "Toolchain already exists"
+        rustup default "stable-${RUST_TARGET}"
     fi
     
     echo "[DEBUG] Checking for rust-toolchain files"

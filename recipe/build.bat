@@ -28,6 +28,11 @@ if defined RUST_TARGET (
     echo [DEBUG] Adding Rust target %RUST_TARGET%
     rustup target add %RUST_TARGET% 2>nul || echo Target already exists
     
+    REM Force set the default toolchain to the target architecture
+    echo [DEBUG] Setting default toolchain to stable-%RUST_TARGET%
+    rustup toolchain install stable-%RUST_TARGET% 2>nul || echo Toolchain already exists
+    rustup default stable-%RUST_TARGET%
+    
     echo [DEBUG] Checking for rust-toolchain files
     if exist rust-toolchain.toml (
         echo [DEBUG] Found rust-toolchain.toml, contents:
