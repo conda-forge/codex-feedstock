@@ -24,7 +24,9 @@ requirements:
     - openssl
 
   host:
-    - openssl
+    - if: unix
+      then: 
+        - openssl
 
 tests:
   - script:
