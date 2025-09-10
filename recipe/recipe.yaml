@@ -11,7 +11,7 @@ source:
   sha256: 96af5c3f4ca0ce8afc687e2c13d5e97a898079eea0db73d1a22bb933cc840dbb
 
 build:
-  number: 0
+  number: 1
 
 requirements:
   build:
@@ -44,3 +44,5 @@ extra:
   recipe-maintainers:
     - moritzwilksch
     - zelosleone
+    - Hofer-Julian
+
