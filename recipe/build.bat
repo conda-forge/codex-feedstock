@@ -19,3 +19,25 @@ if defined CARGO_BUILD_TARGET (
 ) else (
     cargo install --locked --no-track --bins --root "%PREFIX%" --path cli
 )
+
+REM Recreate Node-style layout so the Node wrapper can locate platform-tagged binaries
+set "EXPECTED_DIR=%PREFIX%\lib\node_modules\@openai\codex\bin"
+set "ACTUAL_BIN=%PREFIX%\bin\codex.exe"
+
+if not exist "%EXPECTED_DIR%" (
+    mkdir "%EXPECTED_DIR%" 2>nul
+)
+
+if exist "%ACTUAL_BIN%" (
+    for %%N in ( 
+        codex-x86_64-pc-windows-msvc.exe 
+        codex-aarch64-pc-windows-msvc.exe 
+    ) do (
+        if not exist "%EXPECTED_DIR%\%%N" (
+            copy /Y "%ACTUAL_BIN" "%EXPECTED_DIR%\%%N" >nul
+        )
+    )
+)
+
+endlocal
+exit /b 0

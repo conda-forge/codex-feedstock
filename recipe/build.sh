@@ -15,3 +15,30 @@ if [ -n "${CARGO_BUILD_TARGET:-}" ]; then
 else
     cargo install --locked --no-track --bins --root "${PREFIX}" --path cli
 fi
+
+# Recreate Node-style layout so the JS wrapper can locate platform-tagged binaries without a post-link script
+EXPECTED_DIR="${PREFIX}/lib/node_modules/@openai/codex/bin"
+ACTUAL_BIN="${PREFIX}/bin/codex"
+mkdir -p "${EXPECTED_DIR}"
+
+if [ -x "${ACTUAL_BIN}" ]; then
+    NAMES=(
+        codex-aarch64-apple-darwin
+        codex-x86_64-apple-darwin
+        codex-aarch64-unknown-linux-gnu
+        codex-x86_64-unknown-linux-gnu
+        codex-aarch64-unknown-linux-musl
+        codex-x86_64-unknown-linux-musl
+    )
+    for name in "${NAMES[@]}"; do
+        target="${EXPECTED_DIR}/${name}"
+        if [ -e "${target}" ]; then
+            continue
+        fi
+        if ln -sfn "${ACTUAL_BIN}" "${target}" 2>/dev/null; then
+            :
+        else
+            cp -f "${ACTUAL_BIN}" "${target}"
+        fi
+    done
+fi
