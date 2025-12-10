@@ -1,6 +1,9 @@
 @echo on
 setlocal enabledelayedexpansion
 
+REM Fix HOME for git config (CI sets it to Unix-style path that doesn't exist on Windows)
+set "HOME=%USERPROFILE%"
+
 REM Enable long paths for Git/libgit2 (required even if OS-level long paths are enabled)
 git config --global core.longpaths true
 
