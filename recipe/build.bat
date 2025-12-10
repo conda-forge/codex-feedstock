@@ -1,6 +1,9 @@
 @echo on
 setlocal enabledelayedexpansion
 
+REM Enable long paths for Git/libgit2 (required even if OS-level long paths are enabled)
+git config --global core.longpaths true
+
 cd codex-rs
 cargo-bundle-licenses --format yaml --output ..\THIRDPARTY.yml
 
