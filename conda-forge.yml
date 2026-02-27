@@ -5,6 +5,8 @@ github:
 build_platform:
   osx_arm64: osx_64
   win_arm64: win_64
+provider:
+  linux_aarch64: default
 test: native_and_emulated
 conda_build:
   error_overlinking: true
