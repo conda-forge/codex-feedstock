@@ -10,6 +10,10 @@ if [[ ${OSTYPE} == "linux"* && "${build_platform:-}" != "${target_platform:-}" ]
     export OPENSSL_DIR="${PREFIX}"
 fi
 
+if [[ "${target_platform:-}" == "linux-aarch64" ]]; then
+    export CARGO_BUILD_JOBS="${CARGO_BUILD_JOBS:-1}"
+fi
+
 cd codex-rs
 cargo-bundle-licenses --format yaml --output ../THIRDPARTY.yml
 
