@@ -8,7 +8,7 @@ build_platform:
   win_arm64: win_64
 azure:
   settings_linux:
-    swapfile_size: 10GiB
+    swapfile_size: 22GiB
   free_disk_space: true
 test: native_and_emulated
 conda_build:
