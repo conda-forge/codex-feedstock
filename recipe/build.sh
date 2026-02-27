@@ -5,6 +5,11 @@ set -o xtrace -o nounset -o pipefail -o errexit
 export CFLAGS="$CFLAGS -D_GNU_SOURCE"
 export CXXFLAGS="$CXXFLAGS -D_GNU_SOURCE"
 
+if [[ ${OSTYPE} == "linux"* && "${build_platform:-}" != "${target_platform:-}" ]]; then
+    export PKG_CONFIG_ALLOW_CROSS=1
+    export OPENSSL_DIR="${PREFIX}"
+fi
+
 cd codex-rs
 cargo-bundle-licenses --format yaml --output ../THIRDPARTY.yml
 
