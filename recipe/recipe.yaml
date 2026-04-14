@@ -1,6 +1,6 @@
 context:
   name: codex
-  version: "0.118.0"
+  version: "0.120.0"
 
 package:
   name: ${{ name|lower }}
@@ -8,7 +8,7 @@ package:
 
 source:
   url: https://github.com/openai/codex/archive/refs/tags/rust-v${{ version }}.tar.gz
-  sha256: 7be18a18f604ad877b47c08d9db00018bd1dbbbd774dc6e1e7ea52dc492d7138
+  sha256: b25b5acb4cd610f0fa4142812d7cdaf1afaa644f5bc5d758ddfe627706cc5fa1
 
 build:
   number: 0
@@ -34,6 +34,9 @@ requirements:
 tests:
   - script:
       - codex --version
+  - package_contents:
+      bin:
+        - codex
 
 about:
   summary: Lightweight coding agent that runs in your terminal
@@ -48,3 +51,4 @@ extra:
     - moritzwilksch
     - zelosleone
     - Hofer-Julian
+    - pavelzw
