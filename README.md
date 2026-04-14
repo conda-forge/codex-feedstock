@@ -61,13 +61,6 @@ Current build status
                   <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/codex-feedstock?branchName=main&jobName=win&configuration=win%20win_64_" alt="variant">
                 </a>
               </td>
-            </tr><tr>
-              <td>win_arm64</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=25451&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/codex-feedstock?branchName=main&jobName=win&configuration=win%20win_arm64_" alt="variant">
-                </a>
-              </td>
             </tr>
           </tbody>
         </table>
@@ -199,5 +192,6 @@ Feedstock Maintainers
 
 * [@Hofer-Julian](https://github.com/Hofer-Julian/)
 * [@moritzwilksch](https://github.com/moritzwilksch/)
+* [@pavelzw](https://github.com/pavelzw/)
 * [@zelosleone](https://github.com/zelosleone/)
 
