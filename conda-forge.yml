@@ -6,6 +6,7 @@ provider:
   linux_aarch64: azure
   osx_arm64: default
   linux_64: azure
+  win_64: github_actions
 build_platform:
   linux_aarch64: linux_64
 azure:
