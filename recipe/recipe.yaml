@@ -1,6 +1,6 @@
 context:
   name: codex
-  version: "0.141.0"
+  version: "0.142.0"
 
 package:
   name: ${{ name|lower }}
@@ -8,7 +8,7 @@ package:
 
 source:
   url: https://github.com/openai/codex/archive/refs/tags/rust-v${{ version }}.tar.gz
-  sha256: 4ec6701edd8d43da534bc5af028e7683b87a861a199c6e9337001cb028cf55ba
+  sha256: 3fe9baaa69b8484734b14c5dcee73948423d30235dccc93e46ff4b773cdab06f
 
 build:
   number: 0
