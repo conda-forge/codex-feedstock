@@ -29,6 +29,10 @@ else
     cargo install --locked --no-track --bins --root "${PREFIX}" --path cli
 fi
 
+# Pixi: prevent CONDA_PREFIX from leaking into sandboxed processes
+mkdir -p "${PREFIX}/etc/pixi/codex"
+touch "${PREFIX}/etc/pixi/codex/global-ignore-conda-prefix"
+
 # Recreate Node-style layout so the JS wrapper can locate platform-tagged binaries without a post-link script
 EXPECTED_DIR="${PREFIX}/lib/node_modules/@openai/codex/bin"
 ACTUAL_BIN="${PREFIX}/bin/codex"
