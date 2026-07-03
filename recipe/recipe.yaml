@@ -36,12 +36,7 @@ tests:
       - codex --version
   - package_contents:
       bin:
-        - if: unix
-          then:
-            - codex
-        - if: win
-          then:
-            - codex.exe
+        - codex
       files:
         - etc/pixi/codex/global-ignore-conda-prefix
       strict: true
