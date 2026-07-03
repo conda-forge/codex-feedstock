@@ -1,9 +1,8 @@
 context:
-  name: codex
   version: "0.142.5"
 
 package:
-  name: ${{ name|lower }}
+  name: codex
   version: ${{ version }}
 
 source:
@@ -11,7 +10,7 @@ source:
   sha256: c877887e3cf0d1435552b4ef3516023244f92320da9d1fe142f5a8d03bcd7a95
 
 build:
-  number: 0
+  number: 1
 
 requirements:
   build:
@@ -20,6 +19,7 @@ requirements:
     - ${{ compiler('cxx') }}
     - ${{ stdlib('c') }}
     - cargo-bundle-licenses
+    - cargo-auditable
     - pkg-config
     - openssl
 
@@ -37,6 +37,9 @@ tests:
   - package_contents:
       bin:
         - codex
+      files:
+        - etc/pixi/codex/global-ignore-conda-prefix
+      strict: true
 
 about:
   summary: Lightweight coding agent that runs in your terminal
