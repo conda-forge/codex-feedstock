@@ -26,6 +26,13 @@ if defined CARGO_BUILD_TARGET (
     cargo install --locked --no-track --bins --root "%PREFIX%" --path cli
 )
 
+REM Pixi: prevent CONDA_PREFIX from leaking into sandboxed processes
+set "MARKER_DIR=%PREFIX%\etc\pixi\codex"
+if not exist "%MARKER_DIR%" (
+    mkdir "%MARKER_DIR%" 2>nul
+)
+type nul > "%MARKER_DIR%\global-ignore-conda-prefix"
+
 REM Recreate Node-style layout so the Node wrapper can locate platform-tagged binaries
 set "EXPECTED_DIR=%PREFIX%\lib\node_modules\@openai\codex\bin"
 set "ACTUAL_BIN=%PREFIX%\bin\codex.exe"

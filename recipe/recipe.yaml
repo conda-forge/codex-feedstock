@@ -36,7 +36,15 @@ tests:
       - codex --version
   - package_contents:
       bin:
-        - codex
+        - if: unix
+          then:
+            - codex
+        - if: win
+          then:
+            - codex.exe
+      files:
+        - etc/pixi/codex/global-ignore-conda-prefix
+      strict: true
 
 about:
   summary: Lightweight coding agent that runs in your terminal
