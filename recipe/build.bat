@@ -10,6 +10,10 @@ git config --global core.longpaths true
 cd codex-rs
 cargo-bundle-licenses --format yaml --output ..\THIRDPARTY.yml
 
+REM Use cmake to build aws-lc-sys, because conda's CFLAGS inject -O2 which
+REM overrides the -O0 required by jitterentropy-base.c, causing a build failure.
+set "AWS_LC_SYS_CMAKE_BUILDER=1"
+
 if not defined CARGO_BUILD_TARGET (
     if "%target_platform%"=="win-arm64" (
         set "CARGO_BUILD_TARGET=aarch64-pc-windows-msvc"

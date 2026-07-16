@@ -22,6 +22,10 @@ requirements:
     - cargo-auditable
     - pkg-config
     - openssl
+    - if: win
+      then:
+        - cmake
+        - make
 
   host:
     - if: unix
