@@ -33,6 +33,17 @@ jobs:
             resize_partitions: False
             runs_on: ['namespace-profile-8cpu-on-win-64']
             tools_install_dir: D:\Miniforge
+          - CONFIG: win_arm64_
+            STORE_BUILD_ARTIFACTS: False
+            UPLOAD_PACKAGES: True
+            build_workspace_dir: D:\\bld\\
+            docker_run_args: 
+            free_disk_space: skip
+            os: windows
+            pagefile_size: 0
+            resize_partitions: False
+            runs_on: ['namespace-profile-8cpu-on-win-64']
+            tools_install_dir: D:\Miniforge
     steps:
 
     - name: Checkout code
