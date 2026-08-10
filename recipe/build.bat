@@ -21,9 +21,9 @@ if not defined CARGO_BUILD_TARGET (
 REM Use cargo install with explicit target for cross-compilation (this needed, otherwise linking errors occurs)
 if defined CARGO_BUILD_TARGET (
     echo Building for target: %CARGO_BUILD_TARGET%
-    cargo auditable install --locked --no-track --bins --root "%PREFIX%" --path cli --target %CARGO_BUILD_TARGET%
+    cargo auditable install --locked --no-track --bin codex --root "%PREFIX%" --path cli --target %CARGO_BUILD_TARGET%
 ) else (
-    cargo auditable install --locked --no-track --bins --root "%PREFIX%" --path cli
+    cargo auditable install --locked --no-track --bin codex --root "%PREFIX%" --path cli
 )
 
 REM Pixi: prevent CONDA_PREFIX from leaking into sandboxed processes
