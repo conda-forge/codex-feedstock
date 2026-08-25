@@ -11,6 +11,8 @@ source:
 
 build:
   number: 0
+  skip:
+    - win and arm64
 
 requirements:
   build:
@@ -20,15 +22,15 @@ requirements:
     - ${{ stdlib('c') }}
     - cargo-bundle-licenses
     - cargo-auditable
-    - pkg-config
-    - openssl
-
+    - just
+    - if: linux
+      then: pkg-config
+    - if: win
+      then: m2-sed
   host:
-    - if: unix
-      then:
-        - openssl
     - if: linux
       then:
+        - openssl <4.0a0
         - libcap
 
 tests:
@@ -37,9 +39,9 @@ tests:
   - package_contents:
       bin:
         - codex
+        - codex-code-mode-host
       files:
         - etc/pixi/codex/global-ignore-conda-prefix
-      strict: true
 
 about:
   summary: Lightweight coding agent that runs in your terminal
