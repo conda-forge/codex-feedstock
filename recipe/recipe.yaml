@@ -11,8 +11,6 @@ source:
 
 build:
   number: 1
-  skip:
-    - win and arm64
   script:
     env:
       CARGO_PROFILE_RELEASE_STRIP: symbols
