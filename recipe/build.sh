@@ -2,33 +2,27 @@
 
 set -o xtrace -o nounset -o pipefail -o errexit
 
-export CFLAGS="$CFLAGS -D_GNU_SOURCE"
-export CXXFLAGS="$CXXFLAGS -D_GNU_SOURCE"
+if [[ ${OSTYPE} == "linux"* ]]; then
+    # Limit the number of parallel jobs to avoid OOM errors on GitHub Actions runners
+    export CARGO_BUILD_JOBS="${CARGO_BUILD_JOBS:-2}"
+fi
 
 if [[ ${OSTYPE} == "linux"* && "${build_platform:-}" != "${target_platform:-}" ]]; then
     export PKG_CONFIG_ALLOW_CROSS=1
     export OPENSSL_DIR="${PREFIX}"
 fi
 
-if [[ "${target_platform:-}" == "linux-aarch64" ]]; then
-    export CARGO_BUILD_JOBS="${CARGO_BUILD_JOBS:-1}"
-    export CARGO_PROFILE_RELEASE_CODEGEN_UNITS="${CARGO_PROFILE_RELEASE_CODEGEN_UNITS:-1}"
-    export CARGO_PROFILE_RELEASE_DEBUG="${CARGO_PROFILE_RELEASE_DEBUG:-false}"
-    export CARGO_PROFILE_RELEASE_LTO="${CARGO_PROFILE_RELEASE_LTO:-off}"
-    export RUSTFLAGS="${RUSTFLAGS:+${RUSTFLAGS} }-C link-arg=-Wl,--no-keep-memory"
-fi
+# cargo-auditable compat
+sed -i.bak -e 's/"build",/"auditable","build",/g' scripts/codex_package/cargo.py
+# build
+just assemble-codex-package --cargo-profile release --package-dir out --target "${CARGO_BUILD_TARGET}"
 
-cd codex-rs
-cargo-bundle-licenses --format yaml --output ../THIRDPARTY.yml
-
-# Use cargo install with explicit target for cross-compilation (this is needed, otherwise linking fails)
-if [ -n "${CARGO_BUILD_TARGET:-}" ]; then
-  echo "Building for target: ${CARGO_BUILD_TARGET}"
-  cargo auditable install --locked --no-track --bin codex --root "${PREFIX}" --path cli --target "${CARGO_BUILD_TARGET}"
-else
-  cargo auditable install --locked --no-track --bin codex --root "${PREFIX}" --path cli
-fi
+# install artifacts
+cp -r out/* "${PREFIX}/"
 
 # Pixi: prevent CONDA_PREFIX from leaking into sandboxed processes
 mkdir -p "${PREFIX}/etc/pixi/codex"
 touch "${PREFIX}/etc/pixi/codex/global-ignore-conda-prefix"
+
+cd codex-rs
+cargo-bundle-licenses --format yaml --output ../THIRDPARTY.yml

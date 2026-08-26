@@ -10,8 +10,6 @@ cxx_compiler:
 - vs2022
 github_actions_labels:
 - namespace-profile-8cpu-on-win-64
-openssl:
-- '3.5'
 rust_compiler:
 - rust
 target_platform:
