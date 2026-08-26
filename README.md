@@ -9,6 +9,8 @@ Package license: Apache-2.0
 
 Summary: Lightweight coding agent that runs in your terminal
 
+Development: https://github.com/openai/codex
+
 Current build status
 ====================
 
