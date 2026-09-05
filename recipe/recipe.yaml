@@ -10,7 +10,7 @@ source:
   sha256: 74d988c0e154aad2b8d0cca4e950fc97fe2a29ff5ebe3b0070cce6d949c9a307
 
 build:
-  number: 0
+  number: 1
   script:
     env:
       CARGO_PROFILE_RELEASE_STRIP: symbols
@@ -45,6 +45,11 @@ tests:
         - codex-code-mode-host
       files:
         - etc/pixi/codex/global-ignore-conda-prefix
+        - if: unix
+          then:
+            - share/zsh/site-functions/_codex
+            - share/bash-completion/completions/codex
+            - share/fish/vendor_completions.d/codex.fish
 
 about:
   summary: Lightweight coding agent that runs in your terminal
