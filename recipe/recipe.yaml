@@ -31,10 +31,14 @@ requirements:
     - if: win
       then: m2-sed
   host:
+    - ripgrep
     - if: linux
       then:
         - openssl <4.0a0
         - libcap
+  run:
+    - if: unix
+      then: ripgrep
 
 tests:
   - script:
@@ -45,8 +49,12 @@ tests:
         - codex-code-mode-host
       files:
         - etc/pixi/codex/global-ignore-conda-prefix
+        - if: win
+          then:
+            - codex-path/rg.exe
         - if: unix
           then:
+            - codex-path/rg
             - share/zsh/site-functions/_codex
             - share/bash-completion/completions/codex
             - share/fish/vendor_completions.d/codex.fish

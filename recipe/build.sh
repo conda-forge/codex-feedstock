@@ -15,10 +15,13 @@ fi
 # cargo-auditable compat
 sed -i.bak -e 's/"build",/"auditable","build",/g' scripts/codex_package/cargo.py
 # build
-just assemble-codex-package --cargo-profile release --package-dir out --target "${CARGO_BUILD_TARGET}"
+just assemble-codex-package --cargo-profile release --package-dir out --target "${CARGO_BUILD_TARGET}" --rg-bin "${PREFIX}/bin/rg"
 
 # install artifacts
 cp -r out/* "${PREFIX}/"
+
+# Codex expects rg under codex-path; link to the conda-forge ripgrep executable.
+ln -sf ../bin/rg "${PREFIX}/codex-path/rg"
 
 # Pixi: prevent CONDA_PREFIX from leaking into sandboxed processes
 mkdir -p "${PREFIX}/etc/pixi/codex"
