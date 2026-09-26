@@ -31,7 +31,9 @@ requirements:
     - if: win
       then: m2-sed
   host:
-    - ripgrep
+    - if: unix
+      then:
+        - ripgrep
     - if: linux
       then:
         - openssl <4.0a0
@@ -49,9 +51,6 @@ tests:
         - codex-code-mode-host
       files:
         - etc/pixi/codex/global-ignore-conda-prefix
-        - if: win
-          then:
-            - codex-path/rg.exe
         - if: unix
           then:
             - codex-path/rg

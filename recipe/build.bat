@@ -17,7 +17,7 @@ if not defined CARGO_BUILD_TARGET (
 @rem cargo-auditable compat
 sed -i.bak -e 's/"build",/"auditable","build",/g' scripts/codex_package/cargo.py
 @rem build
-just assemble-codex-package --cargo-profile release --package-dir out --target "%CARGO_BUILD_TARGET%" --rg-bin "%PREFIX%\Library\bin\rg.exe"
+just assemble-codex-package --cargo-profile release --package-dir out --target "%CARGO_BUILD_TARGET%"
 if %ERRORLEVEL% neq 0 exit 1
 
 @rem install artifacts
