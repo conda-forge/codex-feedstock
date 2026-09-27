@@ -10,7 +10,7 @@ source:
   sha256: e3df5f38129e566723a9b762ef021019aedc830b06a57624d78a03a59b6a9d55
 
 build:
-  number: 0
+  number: 1
   script:
     env:
       CARGO_PROFILE_RELEASE_STRIP: symbols
@@ -31,10 +31,16 @@ requirements:
     - if: win
       then: m2-sed
   host:
+    - if: unix
+      then:
+        - ripgrep
     - if: linux
       then:
         - openssl <4.0a0
         - libcap
+  run:
+    - if: unix
+      then: ripgrep
 
 tests:
   - script:
@@ -47,6 +53,7 @@ tests:
         - etc/pixi/codex/global-ignore-conda-prefix
         - if: unix
           then:
+            - codex-path/rg
             - share/zsh/site-functions/_codex
             - share/bash-completion/completions/codex
             - share/fish/vendor_completions.d/codex.fish
