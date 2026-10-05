@@ -8,9 +8,11 @@ package:
 source:
   url: https://github.com/openai/codex/archive/refs/tags/rust-v${{ version }}.tar.gz
   sha256: 7a13f939c8b5ea4e5fb1434f0b4a5ea3f4c85b22a4782818cb28a43ed0deac58
+  patches:
+    - patches/0001-chatgpt-recursion-limit.patch
 
 build:
-  number: 0
+  number: 1
   script:
     env:
       CARGO_PROFILE_RELEASE_STRIP: symbols
