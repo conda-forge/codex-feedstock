@@ -1,5 +1,5 @@
 context:
-  version: "0.163.0"
+  version: "0.164.0"
 
 package:
   name: codex
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://github.com/openai/codex/archive/refs/tags/rust-v${{ version }}.tar.gz
-  sha256: 5990ddb133184ce5e470c741d14f1eeb24a0b6cd36685ef78fb772cf83cab7fc
+  sha256: 57f8c2f88fe5b6eaf08672212b6372362ca044bee43d6e57b6ad032152be772e
   patches:
     - patches/0001-Set-recursion_limit-to-256-in-codex-chatgpt.patch
 
