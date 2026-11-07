@@ -12,7 +12,7 @@ source:
     - patches/0001-Set-recursion_limit-to-256-in-codex-chatgpt.patch
 
 build:
-  number: 0
+  number: 1
   script:
     env:
       CARGO_PROFILE_RELEASE_STRIP: symbols
@@ -29,7 +29,7 @@ requirements:
     - cargo-auditable
     - just
     - if: linux
-      then: pkg-config
+      then: pkgconf
     - if: win
       then: m2-sed
   host:
