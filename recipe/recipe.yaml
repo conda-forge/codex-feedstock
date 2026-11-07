@@ -16,6 +16,9 @@ build:
   script:
     env:
       CARGO_PROFILE_RELEASE_STRIP: symbols
+      # libgit2's SecureTransport backend keeps dropping the connection to
+      # chromium.googlesource.com (rusty_v8 submodules) on macOS; use the git CLI
+      CARGO_NET_GIT_FETCH_WITH_CLI: "true"
     file: build
 
 requirements:
@@ -28,6 +31,7 @@ requirements:
     - cargo-bundle-licenses
     - cargo-auditable
     - just
+    - git
     - if: linux
       then: pkgconf
     - if: win
